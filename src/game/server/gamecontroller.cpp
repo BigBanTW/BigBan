@@ -31,10 +31,13 @@ IGameController::IGameController(CGameContext *pGameServer)
 	m_SuddenDeath = 0;
 	m_aTeamscore[TEAM_RED] = 0;
 	m_aTeamscore[TEAM_BLUE] = 0;
+	/*
 	if(Config()->m_SvWarmup)
 		SetGameState(IGS_WARMUP_USER, Config()->m_SvWarmup);
 	else
 		SetGameState(IGS_WARMUP_GAME, TIMER_INFINITE);
+	*/
+	SetGameState(IGS_GAME_RUNNING);
 
 	// info
 	m_GameFlags = 0;
