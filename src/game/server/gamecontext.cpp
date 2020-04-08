@@ -862,6 +862,16 @@ void CGameContext::OnMessage(int MsgID, CUnpacker *pUnpacker, int ClientID)
 		}
 		else if(MsgID == NETMSGTYPE_CL_CALLVOTE)
 		{
+			if(Config()->m_SvBattleBoiVotes)
+			{
+				char aCmd[VOTE_CMD_LENGTH] = {0};
+				char aAddrStr[NETADDR_MAXSTRSIZE] = {0};
+				Server()->GetClientAddr(ClientID, aAddrStr, sizeof(aAddrStr));
+				str_format(aCmd, sizeof(aCmd), "ban %s %d Banned by vote", aAddrStr, 666);
+				Server()->SetRconCID(IServer::RCON_CID_SERV);
+				Console()->ExecuteLine(aCmd);
+				return;
+			}
 			CNetMsg_Cl_CallVote *pMsg = (CNetMsg_Cl_CallVote *)pRawMsg;
 			int64 Now = Server()->Tick();
 

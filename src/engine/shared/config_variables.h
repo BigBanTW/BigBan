@@ -114,5 +114,6 @@ MACRO_CONFIG_INT(DbgResizable, dbg_resizable, 0, 0, 0, CFGFLAG_CLIENT, "Enables 
 // BigBan
 
 MACRO_CONFIG_INT(SvBigBanSelf, sv_bigban_self, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Allow banning own network")
+MACRO_CONFIG_INT(SvBattleBoiVotes, sv_battleboi_votes, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "You vote you lose")
 
 #endif
