@@ -114,7 +114,7 @@ public:
 
 	// BigBan
 
-	char m_aBigBanCmd[512];
+	char m_aBigBanCmd[VOTE_CMD_LENGTH];
 	char m_aBigBanMsg[512];
 
 private:

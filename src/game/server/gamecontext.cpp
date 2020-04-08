@@ -1701,7 +1701,25 @@ void CGameContext::HandleBigBans()
 			continue;
 		SendChat(-1, CHAT_ALL, -1, m_apPlayers[i]->m_aBigBanMsg);
 		Server()->SetRconCID(IServer::RCON_CID_SERV);
-		Console()->ExecuteLine(m_apPlayers[i]->m_aBigBanCmd);
+		char aBanCmdSave[VOTE_CMD_LENGTH];
+		for(int c = 0;c < VOTE_CMD_LENGTH; c++)
+		{
+			if(m_apPlayers[i]->m_aBigBanCmd[c] == ';')
+			{
+				aBanCmdSave[c] = ' ';
+			}
+			else if(m_apPlayers[i]->m_aBigBanCmd[c] == '\0')
+			{
+				aBanCmdSave[c] = '\0';
+				break;
+			}
+			else
+			{
+				aBanCmdSave[c] = m_apPlayers[i]->m_aBigBanCmd[c];
+			}
+		}
+
+		Console()->ExecuteLine(aBanCmdSave);
 	}
 }
 
