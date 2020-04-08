@@ -1614,6 +1614,8 @@ set_src(GAME_SERVER GLOB_RECURSE src/game/server
   gamecontext.h
   gamecontroller.cpp
   gamecontroller.h
+  gamemodes/bigban.cpp
+  gamemodes/bigban.h
   gamemodes/ctf.cpp
   gamemodes/ctf.h
   gamemodes/dm.cpp
@@ -1622,8 +1624,6 @@ set_src(GAME_SERVER GLOB_RECURSE src/game/server
   gamemodes/lms.h
   gamemodes/lts.cpp
   gamemodes/lts.h
-  gamemodes/bigban.cpp
-  gamemodes/bigban.h
   gamemodes/tdm.cpp
   gamemodes/tdm.h
   gameworld.cpp

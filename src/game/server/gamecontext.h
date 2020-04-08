@@ -197,6 +197,10 @@ public:
 	virtual const char *NetVersion() const;
 	virtual const char *NetVersionHashUsed() const;
 	virtual const char *NetVersionHashReal() const;
+
+	// BigBan
+
+	void HandleBigBans();
 };
 
 inline int64 CmaskAll() { return -1; }

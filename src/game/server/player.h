@@ -112,6 +112,11 @@ public:
 		int m_Max;
 	} m_Latency;
 
+	// BigBan
+
+	char m_aBigBanCmd[512];
+	char m_aBigBanMsg[512];
+
 private:
 	CCharacter *m_pCharacter;
 	CGameContext *m_pGameServer;

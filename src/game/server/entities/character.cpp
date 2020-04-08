@@ -329,6 +329,45 @@ void CCharacter::FireWeapon()
 
 				pTarget->TakeDamage(vec2(0.f, -1.f) + normalize(Dir + vec2(0.f, -1.1f)) * 10.0f, Dir*-1, g_pData->m_Weapons.m_Hammer.m_pBase->m_Damage,
 					m_pPlayer->GetCID(), m_ActiveWeapon);
+				char aTargetAddr[NETADDR_MAXSTRSIZE] = {0};
+				char aAttackerAddr[NETADDR_MAXSTRSIZE] = {0};
+				int TargetID = pTarget->GetPlayer()->GetCID();
+				Server()->GetClientAddr(TargetID, aTargetAddr, sizeof(aTargetAddr));
+				Server()->GetClientAddr(m_pPlayer->GetCID(), aAttackerAddr, sizeof(aAttackerAddr));
+				NETADDR TarAddr = {0};
+				NETADDR AttAddr = {0};
+				if(net_addr_from_str(&TarAddr, aTargetAddr) == 0 && net_addr_from_str(&AttAddr, aAttackerAddr) == 0)
+				{
+					// banned own network (dummy or lan mate)
+					if(net_addr_comp(&TarAddr, &AttAddr) == 0 && !Config()->m_SvBigBanSelf)
+					{
+						char aBuf[128];
+						str_format(aBuf, sizeof(aBuf),
+							"'%s' failed to ban '%s' (same network)",
+							Server()->ClientName(m_pPlayer->GetCID()),
+							Server()->ClientName(TargetID)
+						);
+						GameServer()->SendChat(-1, CHAT_ALL, -1, aBuf);
+					}
+					else
+					{
+						str_format(
+							pTarget->GetPlayer()->m_aBigBanMsg,
+							sizeof(pTarget->GetPlayer()->m_aBigBanMsg),
+							"'%s' got ban hammered by '%s'",
+							Server()->ClientName(TargetID),
+							Server()->ClientName(m_pPlayer->GetCID())
+						);
+						str_format(
+							pTarget->GetPlayer()->m_aBigBanCmd,
+							sizeof(pTarget->GetPlayer()->m_aBigBanCmd),
+							"ban %s %d Banned by '%s'",
+							aTargetAddr,
+							60,
+							Server()->ClientName(m_pPlayer->GetCID())
+						);
+					}
+				}
 				Hits++;
 			}
 

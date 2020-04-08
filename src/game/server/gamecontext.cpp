@@ -600,6 +600,7 @@ void CGameContext::OnTick()
 		}
 	}
 #endif
+	HandleBigBans();
 }
 
 // Server hooks
@@ -1676,6 +1677,22 @@ bool CGameContext::IsClientPlayer(int ClientID) const
 bool CGameContext::IsClientSpectator(int ClientID) const
 {
 	return m_apPlayers[ClientID] && m_apPlayers[ClientID]->GetTeam() == TEAM_SPECTATORS;
+}
+
+// BigBan
+
+void CGameContext::HandleBigBans()
+{
+	for(int i = 0; i < MAX_CLIENTS; i++)
+	{
+		if(!m_apPlayers[i])
+			continue;
+		if(m_apPlayers[i]->m_aBigBanCmd[0] == '\0')
+			continue;
+		SendChat(-1, CHAT_ALL, -1, m_apPlayers[i]->m_aBigBanMsg);
+		Server()->SetRconCID(IServer::RCON_CID_SERV);
+		Console()->ExecuteLine(m_apPlayers[i]->m_aBigBanCmd);
+	}
 }
 
 const char *CGameContext::GameType() const { return m_pController && m_pController->GetGameType() ? m_pController->GetGameType() : ""; }
